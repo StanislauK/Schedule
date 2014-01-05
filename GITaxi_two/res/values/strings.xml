@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GITaxi</string>
+    <string name="menu_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="call">Позвонить</string>
+    <string name="time">18:45</string>
+    <string name="owner">Костя</string>
+    <string name="arrow">arrow</string>
+    <string name="operator">MTC</string>
+    <string name="stopping_points_u">Остановчные пункты маршрутного такси по городу Узда:</string>
+    <string name="stopping_points_m">Остановчные пункты маршрутного такси по городу Минск:</string>
+	<string name="circle">circle</string>
+	<string name="m_r">магазин "Родник"</string>
+	<string name="blrd">магазин "BlackRedWhite"</string>
+	<string name="hospital">больница(авт. остановка)</string>
+	<string name="m_five">магазин №5 (советская)</string>
+	<string name="m_b">магазин Будавник</string>
+	<string name="rinok">рынок</string>
+	<string name="uzdyanka">Уздянка (авт. остановка)</string>
+	<string name="rdk">РДК (авт. остановка)</string>
+	<string name="kolhoz">ул. Колхозная (авт. остановка)</string>
+	<string name="m_g">магазин "Гостинец"</string>
+	<string name="m_l">магазин "Луговой"</string>
+	<string name="n_m">Номера наших машин:</string>
+	<string name="number1">28&#8212;33</string>
+	<string name="number2">28&#8212;34</string>
+	<string name="number3">28&#8212;39</string>
+	<string name="number4">28&#8212;94</string>
+	<string name="avtovaz">АвтоВаз</string>
+	<string name="bsmp">больница скорой мед. помощи</string>
+	<string name="institut">институт культуры</string>
+	<string name="jd">ж/д вокзал</string>
+
+</resources>

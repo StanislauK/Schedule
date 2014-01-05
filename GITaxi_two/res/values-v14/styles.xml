@@ -1,0 +1,49 @@
+<resources>
+
+    <!--
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    -->
+      <style name="Theme.Gitaxi" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_gitaxi</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Gitaxi</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Gitaxi</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Gitaxi</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Gitaxi</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Gitaxi</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_gitaxi</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_gitaxi</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Gitaxi</item>
+        
+                <!-- Light.DarkActionBar specific -->
+        <item name="android:actionBarWidgetTheme">@style/Theme.Gitaxi.Widget</item>
+
+    </style>
+
+    <style name="ActionBar.Solid.Gitaxi" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_gitaxi</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_gitaxi</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_gitaxi</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Gitaxi</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Gitaxi" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_gitaxi</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Gitaxi</item>
+    </style>
+    
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Gitaxi.Widget" parent="@style/Theme.Sherlock">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Gitaxi</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Gitaxi</item>
+    </style>
+    
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+
+</resources>

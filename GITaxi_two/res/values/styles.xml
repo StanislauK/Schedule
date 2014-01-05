@@ -1,0 +1,75 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <style name="Theme.Gitaxi" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarItemBackground">@drawable/selectable_background_gitaxi</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Gitaxi</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Gitaxi</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Gitaxi</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Gitaxi</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Gitaxi</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_gitaxi</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_gitaxi</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Gitaxi</item>
+
+        <!-- Light.DarkActionBar specific -->
+        <item name="actionBarWidgetTheme">@style/Theme.Gitaxi.Widget</item>
+    </style>
+
+    <style name="ActionBar.Solid.Gitaxi" parent="@style/Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="background">@drawable/ab_solid_gitaxi</item>
+        <item name="backgroundStacked">@drawable/ab_stacked_solid_gitaxi</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_gitaxi</item>
+        <item name="progressBarStyle">@style/ProgressBar.Gitaxi</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Gitaxi" parent="@style/Widget.Sherlock.ActionBar">
+        <item name="background">@drawable/ab_transparent_gitaxi</item>
+        <item name="progressBarStyle">@style/ProgressBar.Gitaxi</item>
+    </style>
+
+    <style name="PopupMenu.Gitaxi" parent="@style/Widget.Sherlock.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_gitaxi</item>
+    </style>
+
+    <style name="DropDownListView.Gitaxi" parent="@style/Widget.Sherlock.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_gitaxi</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Gitaxi" parent="@style/Widget.Sherlock.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_gitaxi</item>
+    </style>
+
+    <style name="DropDownNav.Gitaxi" parent="@style/Widget.Sherlock.Spinner.DropDown.ActionBar">
+        <item name="android:background">@drawable/spinner_background_ab_gitaxi</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_gitaxi</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_gitaxi</item>
+    </style>
+
+    <style name="ProgressBar.Gitaxi" parent="@style/Widget.Sherlock.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_gitaxi</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Gitaxi" parent="@style/Widget.Sherlock.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_gitaxi</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Gitaxi.Widget" parent="@style/Theme.Sherlock">
+        <item name="popupMenuStyle">@style/PopupMenu.Gitaxi</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Gitaxi</item>
+    </style>
+    
+
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/slide_in_left</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>n
+    </style>
+    
+
+
+    
+
+</resources>

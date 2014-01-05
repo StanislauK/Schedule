@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:maxLines="1"
+        android:paddingBottom="7dp"
+        android:paddingTop="7dp"
+        android:text="@string/time"
+        android:textSize="23sp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="20dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/time"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/owner"
+        android:layout_marginRight="15dp"
+        android:contentDescription="@string/arrow"
+        android:src="@drawable/arrow" />
+
+    <TextView
+        android:id="@+id/owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/time"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/time"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/time"
+        android:gravity="bottom"
+        android:maxLines="2"
+        android:paddingBottom="10dp"
+        android:text="@string/owner"
+        android:textColor="@android:color/black"
+        android:textSize="13sp" />
+
+</RelativeLayout>
