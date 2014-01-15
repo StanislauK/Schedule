@@ -97,13 +97,4 @@
         android:text="@string/jd"
         android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/shot4"
-        android:contentDescription="@string/rdk" />
-
 </RelativeLayout>

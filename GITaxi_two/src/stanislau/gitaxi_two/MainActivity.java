@@ -19,6 +19,7 @@ import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -277,7 +278,7 @@ public class MainActivity extends SherlockActivity implements
 				| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		SubMenu location_subMenu = menu.addSubMenu(2, 11, 1, "Location")
-				.setIcon(R.drawable.location_map);
+				.setIcon(R.drawable.location_place);
 		MenuItem location_subMenuItem = location_subMenu.getItem();
 		location_subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
@@ -548,6 +549,7 @@ public class MainActivity extends SherlockActivity implements
 
 	private void CustomDialog(int id) {
 		Dialog dialog = null;
+		Drawable dialog_image = getResources().getDrawable(R.drawable.ab_background_textured_gitaxi);
 
 		ListView dialog_listview;
 
@@ -555,13 +557,14 @@ public class MainActivity extends SherlockActivity implements
 		dialog.setTitle("Ваш оператор?");
 		dialog.setContentView(R.layout.dialog_list);
 		dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
 		dialog.setCancelable(true);
 		dialog.setCanceledOnTouchOutside(true);
 
 		// Prepare ListView in dialog
 		dialog_listview = (ListView) dialog.findViewById(R.id.alertlist);
 		adapter = new CustomAlertList(MainActivity.this, operators, imageId);
+		dialog_listview.setBackground(dialog_image);
+		dialog_image.setAlpha(100);
 		dialog_listview.setAdapter(adapter);
 
 		dialog_listview.setOnItemClickListener(new OnItemClickListener() {
