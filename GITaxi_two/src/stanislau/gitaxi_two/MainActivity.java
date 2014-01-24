@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import by.stanislau.k.location.AboutApp;
 import by.stanislau.k.location.LocationActivity;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -46,13 +47,13 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class MainActivity extends SherlockActivity implements
 		OnItemClickListener {
 
-	ActionBar mActionBar;
+	private ActionBar mActionBar;
 	public Context mContext;
-	DB db;
-	Cursor c;
-	SQLiteDatabase sqlDataBase;
-	MySimpleCursorAdapter mySimpleCA;
-	CustomAlertList adapter;
+	private DB db;
+	private Cursor c;
+	private SQLiteDatabase sqlDataBase;
+	private MySimpleCursorAdapter mySimpleCA;
+	private CustomAlertList adapter;
 
 	Typeface type;
 
@@ -88,6 +89,8 @@ public class MainActivity extends SherlockActivity implements
 	String m_u = "1";
 	String[] operators = { "MTC", "Velcom" };
 	Integer[] imageId = { R.drawable.ic_mts_logo, R.drawable.ic_velcom_logo };
+	
+	private Drawable listview_background;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +109,9 @@ public class MainActivity extends SherlockActivity implements
 		c = sqlDataBase.query(DB.DB_TABLE_TEMP, null, null, null, null, null,
 				null);
 
+		listview_background = getResources().getDrawable(
+				R.drawable.ab_background_textured_gitaxi);
+		listview_background.setAlpha(60);
 		listView_um = new ListView(mContext);
 		listView_um.setOnItemClickListener(this);
 		listView_mu = new ListView(mContext);
@@ -285,6 +291,7 @@ public class MainActivity extends SherlockActivity implements
 		SubMenu overflow_subMenu = menu.addSubMenu(3, 12, 2, "Info").setIcon(
 				R.drawable.ic_action_overflow);
 		overflow_subMenu.add(3, 13, 2, "Обновить расписание");
+		overflow_subMenu.add(3, 14, 2, "О приложении");
 
 		MenuItem overflow_subMenuItem = overflow_subMenu.getItem();
 		overflow_subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -390,6 +397,11 @@ public class MainActivity extends SherlockActivity implements
 				Crouton.showText(this, "Проверьте соединение с интернетом",
 						Style.ALERT, R.id.listMode);
 			}
+			break;
+		case 14:
+			Intent intent_about = new Intent(this, AboutApp.class);
+			startActivity(intent_about);
+			overridePendingTransition(R.anim.animation_first, R.anim.animation_two);
 			break;
 		case android.R.id.home:
 			break;

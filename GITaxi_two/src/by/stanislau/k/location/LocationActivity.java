@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -45,6 +44,9 @@ public class LocationActivity extends SherlockFragmentActivity {
 		tab.setText("из г. Минска");
 		tab.setTabListener(mActionBarTabListener);
 		mActionBar.addTab(tab);
+		
+
+;
 
 	}
 
@@ -86,7 +88,6 @@ public class LocationActivity extends SherlockFragmentActivity {
 		public MyPagerAdapter(FragmentManager fm) {
 			super(fm);
 		}
-
 		@Override
 		public Fragment getItem(int pos) {
 			switch (pos) {

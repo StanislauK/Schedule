@@ -32,5 +32,13 @@
 	<string name="bsmp">больница скорой мед. помощи</string>
 	<string name="institut">институт культуры</string>
 	<string name="jd">ж/д вокзал</string>
+	<string name="application_name">Приложение "Маршруточка"</string>
+	<string name="application_version">Версия 1.0</string>
+	<string name="about">Это приложение поможет Вам всегда и везде иметь
+	    под рукой самое последнее расписание движения маршрутного такси по маршруту "Узда - Минск" 
+	    и обратно со всеми промежуточными остановками.</string>
+	<string name="contact_info">Контактный e-mail:</string>
+	<string name="e_mail">stanislau.k@gmail.com</string>
+	<string name="other">Разработчик Курлянчик Станислав</string>
 
 </resources>
