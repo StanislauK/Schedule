@@ -1,5 +1,7 @@
 package stanislau.gitaxi_two;
 
+//не стоит делать такие классы. но пока пусть будет
+
 public class Consts {
 	
 	public static final String MONDAY = "Понедельник";

@@ -47,8 +47,10 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 		}
 		ViewHolder vh = (ViewHolder) view.getTag();
 
+		//выровняй текст
 		this.c.moveToPosition(position);
 		vh.time.setText(this.c.getString(this.c.getColumnIndex(DB.COLUMN_TIME)));
+			//цвет выноси в ресурсы
 			vh.time.setTextColor(Color.parseColor("#177AF2"));
 			vh.time.setTypeface(type);
 		vh.owner.setText(this.c.getString(this.c

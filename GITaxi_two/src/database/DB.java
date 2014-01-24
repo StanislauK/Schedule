@@ -27,6 +27,7 @@ public class DB {
 
 	public static final String SAVE_VERSION = "SAVE_VERSION";
 
+	//выровняй чтобы все удобно читалось
 	private static final String DB_MAIN = "create table " + DB_TABLE_TEMP
 			+ " ( " + COLUMN_ID + " integer primary key autoincrement,"
 			+ COLUMN_DAY + " text," + COLUMN_TIME + " text, " + COLUMN_OWNER
@@ -35,6 +36,7 @@ public class DB {
 	public DBHelper dbhelper;
 	public SQLiteDatabase db;
 
+	//не надо тут контекст хранить
 	private Context mCtx;
 
 	public DB(Context ctx) {

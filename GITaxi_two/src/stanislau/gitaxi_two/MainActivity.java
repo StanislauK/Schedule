@@ -43,9 +43,13 @@ import database.DB;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
+//когда исправишь все что тут написал, напишу еще
+
 public class MainActivity extends SherlockActivity implements
 		OnItemClickListener {
 
+	//про это  € писал	
+		
 	ActionBar mActionBar;
 	public Context mContext;
 	DB db;
@@ -114,6 +118,9 @@ public class MainActivity extends SherlockActivity implements
 		sPref = getPreferences(MODE_PRIVATE);
 		ed = sPref.edit();
 
+		//ќчень неудобно читать код. надо сделать проще.
+		//ј создание диалога вынести в отдельный метод
+		// все сроки вынеси в ресурсы
 		if (c.getCount() == 0) {
 			ed.putInt(DB.SAVE_VERSION, current_version);
 			ed.commit();
@@ -166,6 +173,7 @@ public class MainActivity extends SherlockActivity implements
 
 	}
 
+	//Ћучше слушатели вынеси в implements
 	ActionBar.TabListener mActionBarTabListener = new ActionBar.TabListener() {
 
 		@Override
@@ -182,6 +190,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 	};
 
+	//тоже самое
 	ViewPager.OnPageChangeListener mViewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
 		@Override
@@ -259,6 +268,8 @@ public class MainActivity extends SherlockActivity implements
 
 	}
 
+	//строки в ресурсы
+	//попробуй меню загнать в ресуры Menu
 	@Override
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 
@@ -291,6 +302,7 @@ public class MainActivity extends SherlockActivity implements
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	//не должно быть в этом класс
 	public void saveSheldule(String array, String result) throws JSONException {
 
 		JSONObject rootJson = new JSONObject(result);
@@ -304,6 +316,7 @@ public class MainActivity extends SherlockActivity implements
 		}
 	}
 
+	//не должно быть в этом класс
 	public int getVersion(String result) {
 		try {
 			JSONObject rootJson = new JSONObject(result);
@@ -322,6 +335,7 @@ public class MainActivity extends SherlockActivity implements
 		item.setTitle(title);
 	}
 
+	//одинаковые куски кода. Ќадо вынести в метод
 	@Override
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item) {
@@ -402,6 +416,7 @@ public class MainActivity extends SherlockActivity implements
 			long id) {
 
 		owner = ((TextView) view.findViewById(R.id.owner));
+		//во всех конструкци€х используй {} даже там где можно и не ставить
 		if (owner.equals(Consts.KONSTANTIN)) {
 			owner_id = 1;
 		} else
@@ -410,6 +425,7 @@ public class MainActivity extends SherlockActivity implements
 
 	}
 
+	//одинаковые куски кода. Ќадо вынести в метод
 	public void setTitle(int day) {
 		switch (day) {
 		case 1:
@@ -457,6 +473,9 @@ public class MainActivity extends SherlockActivity implements
 		}
 	}
 
+	//не используй методы и классы которые устарели
+	//названи€ методов с маленькой буквы, и начинаютс€ с глагола. 
+	//јдаптер - плохое название. Ќе несет информации о том что делает метод
 	@SuppressWarnings("deprecation")
 	public void Adapter(String day, String direction, ListView lv) {
 
@@ -475,6 +494,7 @@ public class MainActivity extends SherlockActivity implements
 
 	}
 
+	//одинаковые куски кода. Ќадо вынести в метод
 	public void afterRefresh(int day) {
 		switch (day) {
 		case 4:
@@ -509,6 +529,8 @@ public class MainActivity extends SherlockActivity implements
 		}
 	}
 
+	//одинаковые куски кода. Ќадо вынести в метод
+	//строки в ресурсы
 	public String getCurrentDay(int dow) {
 		switch (dow) {
 		case 1:
@@ -569,6 +591,8 @@ public class MainActivity extends SherlockActivity implements
 
 		dialog_listview.setOnItemClickListener(new OnItemClickListener() {
 
+			//не создавай лисенеры пр€мо в мтеоде
+			//неудобно читать
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
