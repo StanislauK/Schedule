@@ -1,4 +1,4 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

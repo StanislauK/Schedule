@@ -1,6 +1,7 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
-import database.DB;
+import by.kursoft.gitaxi.database.DB;
+import stanislau.gitaxi_two.R;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;

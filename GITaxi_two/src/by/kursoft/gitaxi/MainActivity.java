@@ -1,4 +1,4 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import stanislau.gitaxi_two.R;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -30,7 +32,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import by.stanislau.k.location.LocationActivity;
+import by.kursoft.gitaxi.database.DB;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -39,7 +41,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
-import database.DB;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 

@@ -1,6 +1,5 @@
-package by.stanislau.k.location;
+package by.kursoft.gitaxi;
 
-import stanislau.gitaxi_two.MainActivity;
 import stanislau.gitaxi_two.R;
 import android.content.Intent;
 import android.os.Bundle;

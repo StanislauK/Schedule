@@ -1,4 +1,4 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
 //не стоит делать такие классы. но пока пусть будет
 

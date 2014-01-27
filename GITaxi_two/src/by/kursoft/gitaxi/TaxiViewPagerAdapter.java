@@ -1,4 +1,4 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
 import java.util.List;
 import android.content.Context;

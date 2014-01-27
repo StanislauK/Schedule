@@ -1,4 +1,4 @@
-package stanislau.gitaxi_two;
+package by.kursoft.gitaxi;
 
 import android.app.Activity;
 import android.graphics.Typeface;

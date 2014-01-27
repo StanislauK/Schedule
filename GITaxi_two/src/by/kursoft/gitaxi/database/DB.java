@@ -1,4 +1,4 @@
-package database;
+package by.kursoft.gitaxi.database;
 
 import android.content.ContentValues;
 import android.content.Context;

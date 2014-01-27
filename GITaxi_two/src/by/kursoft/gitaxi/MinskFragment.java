@@ -1,4 +1,4 @@
-package by.stanislau.k.location;
+package by.kursoft.gitaxi;
 
 import stanislau.gitaxi_two.R;
 import android.graphics.Typeface;
