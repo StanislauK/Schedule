@@ -1,5 +1,7 @@
 package by.kursoft.gitaxi;
 
+import com.actionbarsherlock.view.Menu;
+
 //не стоит делать такие классы. но пока пусть будет
 
 public class Consts {
@@ -13,6 +15,8 @@ public class Consts {
 	public static final String SUNDAY = "Воскресенье";
 	public static final String TODAY = "Сегодня";
 	public static final String TOMORROW = "Завтра";
+	
+	public static final int MENU_TITLE = Menu.FIRST;
 	
 	public static final String KONSTANTIN = "ИринТрансСервис";
 	public static final String MISHONOK = "ЧТУП\nУздаТрансПлюс";

@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import stanislau.gitaxi_two.R;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -20,7 +19,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -51,48 +49,45 @@ public class MainActivity extends SherlockActivity implements
 
 	//про это  я писал	
 		
-	ActionBar mActionBar;
-	public Context mContext;
-	DB db;
-	Cursor c;
-	SQLiteDatabase sqlDataBase;
-	MySimpleCursorAdapter mySimpleCA;
-	CustomAlertList adapter;
 
-	Typeface type;
+	private Context mContext;
+	private ActionBar mActionBar;
+	
+	private CustomAlertList adapter;
+	
+	private DB db;
+	private Cursor c;
+	private SQLiteDatabase sqlDataBase;
+	private MySimpleCursorAdapter mySimpleCA;
+	private int version_of_db;
+	
 
-	UpdateSheldue update;
+	private SharedPreferences sPref;
+	private Editor ed;
 
-	SharedPreferences sPref;
-	Editor ed;
+	private Calendar calendar;
 
-	Calendar calendar;
+	private int currentVersion = 0;
+	private int dow;
+	private int currentDay = 0;
+	private int ownerId = 0;
 
-	int version_of_db;
-	int current_version = 0;
-	int dow;
-	int current_day = 0;
+	private ListView listViewFromUzdaToMinsk;
+	private ListView listViewFromMinskToUzda;
+	private ViewPager mViewPager;
 
-	int owner_id = 0;
+	private Menu mMenu;
+	private SubMenu mSubMenu;
 
-	ListView listView_um;
-	ListView listView_mu;
-	ViewPager mViewPager;
+	private TextView owner;
 
-	Menu mMenu;
-	SubMenu mSubMenu;
-
-	TextView owner;
-	TextView time;
-
-	static final private int MENU_TITLE = Menu.FIRST;
-	String day_of_week = null;
-	String current_day_of_week;
-	String temp_day;
-	String u_m = "0";
-	String m_u = "1";
-	String[] operators = { "MTC", "Velcom" };
-	Integer[] imageId = { R.drawable.ic_mts_logo, R.drawable.ic_velcom_logo };
+	private String dayOfWeek = null;
+	private String currentDayOfWeek;
+	private String temp_day;
+	private String fromUzdaToMinsk = "0";
+	private String fromMinskToUzda = "1";
+	private String[] operators = { "MTC", "Velcom" };
+	private Integer[] imageIds = { R.drawable.ic_mts_logo, R.drawable.ic_velcom_logo };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +97,7 @@ public class MainActivity extends SherlockActivity implements
 		calendar = Calendar.getInstance();
 		dow = calendar.get(Calendar.DAY_OF_WEEK);
 
-		current_day = dow + 2;
+		currentDay = dow + 2;
 
 		mContext = this;
 		db = new DB(mContext);
@@ -111,10 +106,10 @@ public class MainActivity extends SherlockActivity implements
 		c = sqlDataBase.query(DB.DB_TABLE_TEMP, null, null, null, null, null,
 				null);
 
-		listView_um = new ListView(mContext);
-		listView_um.setOnItemClickListener(this);
-		listView_mu = new ListView(mContext);
-		listView_mu.setOnItemClickListener(this);
+		listViewFromUzdaToMinsk = new ListView(mContext);
+		listViewFromUzdaToMinsk.setOnItemClickListener(this);
+		listViewFromMinskToUzda = new ListView(mContext);
+		listViewFromMinskToUzda.setOnItemClickListener(this);
 
 		sPref = getPreferences(MODE_PRIVATE);
 		ed = sPref.edit();
@@ -123,7 +118,7 @@ public class MainActivity extends SherlockActivity implements
 		//А создание диалога вынести в отдельный метод
 		// все сроки вынеси в ресурсы
 		if (c.getCount() == 0) {
-			ed.putInt(DB.SAVE_VERSION, current_version);
+			ed.putInt(DB.SAVE_VERSION, currentVersion);
 			ed.commit();
 			if (Utils.isNetworkAvailable(MainActivity.this)) {
 				new AlertDialog.Builder(mContext)
@@ -146,8 +141,8 @@ public class MainActivity extends SherlockActivity implements
 		}
 
 		List<View> pages = new ArrayList<View>();
-		pages.add(listView_um);
-		pages.add(listView_mu);
+		pages.add(listViewFromUzdaToMinsk);
+		pages.add(listViewFromMinskToUzda);
 
 		mViewPager = (ViewPager) findViewById(R.id.viewPager);
 		TaxiViewPagerAdapter mTaxiViewPagerAdapter = new TaxiViewPagerAdapter(
@@ -170,7 +165,6 @@ public class MainActivity extends SherlockActivity implements
 		mActionBar.addTab(tab);
 
 		setTitle(dow);
-		time = (TextView) findViewById(R.id.time);
 
 	}
 
@@ -224,7 +218,7 @@ public class MainActivity extends SherlockActivity implements
 			pDialog.setCancelable(false);
 			pDialog.show();
 			version = sPref.getInt(DB.SAVE_VERSION, 0);
-			temp = current_day;
+			temp = currentDay;
 		}
 
 		@Override
@@ -259,7 +253,7 @@ public class MainActivity extends SherlockActivity implements
 					sqlDataBase.delete(DB.DB_TABLE_TEMP, null, null);
 					saveSheldule(DB.ARRAY_UZDA_MINSK, result);
 					saveSheldule(DB.ARRAY_MINSK_UZDA, result);
-					afterRefresh(current_day);
+					afterRefresh(currentDay);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -275,7 +269,7 @@ public class MainActivity extends SherlockActivity implements
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 
 		this.mMenu = menu;
-		mSubMenu = menu.addSubMenu(1, MENU_TITLE, 1, day_of_week);
+		mSubMenu = menu.addSubMenu(1, Consts.MENU_TITLE, 1, dayOfWeek);
 		mSubMenu.add(0, 2, 2, "Сегодня");
 		// mSubMenu.add(0, 3, 3, "Завтра");
 		mSubMenu.add(0, 4, 4, "Понедельник");
@@ -343,55 +337,55 @@ public class MainActivity extends SherlockActivity implements
 
 		switch (item.getItemId()) {
 		case 2:
-			setOptionTitle(MENU_TITLE, getCurrentDay(dow));
-			Adapter(temp_day, u_m, listView_um);
-			Adapter(temp_day, m_u, listView_mu);
+			setOptionTitle(Consts.MENU_TITLE, getCurrentDay(dow));
+			Adapter(temp_day, fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter(temp_day, fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 3:
-			// setOptionTitle(MENU_TITLE, Consts.TOMORROW);
+			// setOptionTitle(Consts.MENU_TITLE, Consts.TOMORROW);
 			break;
 		case 4:
-			setOptionTitle(MENU_TITLE, Consts.MONDAY);
-			Adapter("monday", u_m, listView_um);
-			Adapter("monday", m_u, listView_mu);
-			current_day = 4;
+			setOptionTitle(Consts.MENU_TITLE, Consts.MONDAY);
+			Adapter("monday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("monday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 4;
 			break;
 		case 5:
-			setOptionTitle(MENU_TITLE, Consts.TUESDAY);
-			Adapter("tuesday", u_m, listView_um);
-			Adapter("tuesday", m_u, listView_mu);
-			current_day = 5;
+			setOptionTitle(Consts.MENU_TITLE, Consts.TUESDAY);
+			Adapter("tuesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("tuesday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 5;
 			break;
 
 		case 6:
-			setOptionTitle(MENU_TITLE, Consts.WEDNESDAY);
-			Adapter("wednesday", u_m, listView_um);
-			Adapter("wednesday", m_u, listView_mu);
-			current_day = 6;
+			setOptionTitle(Consts.MENU_TITLE, Consts.WEDNESDAY);
+			Adapter("wednesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("wednesday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 6;
 			break;
 		case 7:
-			setOptionTitle(MENU_TITLE, Consts.THURSDAY);
-			Adapter("thursday", u_m, listView_um);
-			Adapter("thursday", m_u, listView_mu);
-			current_day = 7;
+			setOptionTitle(Consts.MENU_TITLE, Consts.THURSDAY);
+			Adapter("thursday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("thursday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 7;
 			break;
 		case 8:
-			setOptionTitle(MENU_TITLE, Consts.FRIDAY);
-			Adapter("friday", u_m, listView_um);
-			Adapter("friday", m_u, listView_mu);
-			current_day = 8;
+			setOptionTitle(Consts.MENU_TITLE, Consts.FRIDAY);
+			Adapter("friday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("friday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 8;
 			break;
 		case 9:
-			setOptionTitle(MENU_TITLE, Consts.SATURDAY);
-			Adapter("saturday", u_m, listView_um);
-			Adapter("saturday", m_u, listView_mu);
-			current_day = 9;
+			setOptionTitle(Consts.MENU_TITLE, Consts.SATURDAY);
+			Adapter("saturday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("saturday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 9;
 			break;
 		case 10:
-			setOptionTitle(MENU_TITLE, Consts.SUNDAY);
-			Adapter("sunday", u_m, listView_um);
-			Adapter("sunday", m_u, listView_mu);
-			current_day = 10;
+			setOptionTitle(Consts.MENU_TITLE, Consts.SUNDAY);
+			Adapter("sunday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("sunday", fromMinskToUzda, listViewFromMinskToUzda);
+			currentDay = 10;
 			break;
 		case 11:
 			Intent intent = new Intent(this, LocationActivity.class);
@@ -419,10 +413,10 @@ public class MainActivity extends SherlockActivity implements
 		owner = ((TextView) view.findViewById(R.id.owner));
 		//во всех конструкциях используй {} даже там где можно и не ставить
 		if (owner.equals(Consts.KONSTANTIN)) {
-			owner_id = 1;
+			ownerId = 1;
 		} else
-			owner_id = 2;
-		CustomDialog(owner_id);
+			ownerId = 2;
+		CustomDialog(ownerId);
 
 	}
 
@@ -430,46 +424,46 @@ public class MainActivity extends SherlockActivity implements
 	public void setTitle(int day) {
 		switch (day) {
 		case 1:
-			current_day_of_week = Consts.SUNDAY;
-			day_of_week = Consts.SUNDAY;
-			Adapter("sunday", u_m, listView_um);
-			Adapter("sunday", m_u, listView_mu);
+			currentDayOfWeek = Consts.SUNDAY;
+			dayOfWeek = Consts.SUNDAY;
+			Adapter("sunday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("sunday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 2:
-			current_day_of_week = Consts.MONDAY;
-			day_of_week = Consts.MONDAY;
-			Adapter("monday", u_m, listView_um);
-			Adapter("monday", m_u, listView_mu);
+			currentDayOfWeek = Consts.MONDAY;
+			dayOfWeek = Consts.MONDAY;
+			Adapter("monday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("monday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 3:
-			current_day_of_week = Consts.TUESDAY;
-			day_of_week = Consts.TUESDAY;
-			Adapter("tuesday", u_m, listView_um);
-			Adapter("tuesday", m_u, listView_mu);
+			currentDayOfWeek = Consts.TUESDAY;
+			dayOfWeek = Consts.TUESDAY;
+			Adapter("tuesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("tuesday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 4:
-			current_day_of_week = Consts.WEDNESDAY;
-			day_of_week = Consts.WEDNESDAY;
-			Adapter("wednesday", u_m, listView_um);
-			Adapter("wednesday", m_u, listView_mu);
+			currentDayOfWeek = Consts.WEDNESDAY;
+			dayOfWeek = Consts.WEDNESDAY;
+			Adapter("wednesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("wednesday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 5:
-			current_day_of_week = Consts.THURSDAY;
-			day_of_week = Consts.THURSDAY;
-			Adapter("thursday", u_m, listView_um);
-			Adapter("thursday", m_u, listView_mu);
+			currentDayOfWeek = Consts.THURSDAY;
+			dayOfWeek = Consts.THURSDAY;
+			Adapter("thursday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("thursday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 6:
-			current_day_of_week = Consts.FRIDAY;
-			day_of_week = Consts.FRIDAY;
-			Adapter("friday", u_m, listView_um);
-			Adapter("friday", m_u, listView_mu);
+			currentDayOfWeek = Consts.FRIDAY;
+			dayOfWeek = Consts.FRIDAY;
+			Adapter("friday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("friday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 7:
-			current_day_of_week = Consts.SATURDAY;
-			day_of_week = Consts.SATURDAY;
-			Adapter("saturday", u_m, listView_um);
-			Adapter("saturday", m_u, listView_mu);
+			currentDayOfWeek = Consts.SATURDAY;
+			dayOfWeek = Consts.SATURDAY;
+			Adapter("saturday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("saturday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		}
 	}
@@ -499,32 +493,32 @@ public class MainActivity extends SherlockActivity implements
 	public void afterRefresh(int day) {
 		switch (day) {
 		case 4:
-			Adapter("monday", u_m, listView_um);
-			Adapter("monday", m_u, listView_mu);
+			Adapter("monday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("monday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 5:
-			Adapter("tuesday", u_m, listView_um);
-			Adapter("tuesday", m_u, listView_mu);
+			Adapter("tuesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("tuesday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 6:
-			Adapter("wednesday", u_m, listView_um);
-			Adapter("wednesday", m_u, listView_mu);
+			Adapter("wednesday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("wednesday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 7:
-			Adapter("thursday", u_m, listView_um);
-			Adapter("thursday", m_u, listView_mu);
+			Adapter("thursday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("thursday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 8:
-			Adapter("friday", u_m, listView_um);
-			Adapter("friday", m_u, listView_mu);
+			Adapter("friday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("friday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 9:
-			Adapter("saturday", u_m, listView_um);
-			Adapter("saturday", m_u, listView_mu);
+			Adapter("saturday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("saturday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 		case 10:
-			Adapter("sunday", u_m, listView_um);
-			Adapter("sunday", m_u, listView_mu);
+			Adapter("sunday", fromUzdaToMinsk, listViewFromUzdaToMinsk);
+			Adapter("sunday", fromMinskToUzda, listViewFromMinskToUzda);
 			break;
 
 		}
@@ -535,35 +529,35 @@ public class MainActivity extends SherlockActivity implements
 	public String getCurrentDay(int dow) {
 		switch (dow) {
 		case 1:
-			current_day_of_week = Consts.SUNDAY;
+			currentDayOfWeek = Consts.SUNDAY;
 			temp_day = "sunday";
 			break;
 		case 2:
-			current_day_of_week = Consts.MONDAY;
+			currentDayOfWeek = Consts.MONDAY;
 			temp_day = "monday";
 			break;
 		case 3:
-			current_day_of_week = Consts.TUESDAY;
+			currentDayOfWeek = Consts.TUESDAY;
 			temp_day = "tuesday";
 			break;
 		case 4:
-			current_day_of_week = Consts.WEDNESDAY;
+			currentDayOfWeek = Consts.WEDNESDAY;
 			temp_day = "wednesday";
 			break;
 		case 5:
-			current_day_of_week = Consts.THURSDAY;
+			currentDayOfWeek = Consts.THURSDAY;
 			temp_day = "thursday";
 			break;
 		case 6:
-			current_day_of_week = Consts.FRIDAY;
+			currentDayOfWeek = Consts.FRIDAY;
 			temp_day = "friday";
 			break;
 		case 7:
-			current_day_of_week = Consts.SATURDAY;
+			currentDayOfWeek = Consts.SATURDAY;
 			temp_day = "saturday";
 			break;
 		}
-		return current_day_of_week;
+		return currentDayOfWeek;
 	}
 
 	public void dial(String tel) {
@@ -585,7 +579,7 @@ public class MainActivity extends SherlockActivity implements
 
 		// Prepare ListView in dialog
 		dialog_listview = (ListView) dialog.findViewById(R.id.alertlist);
-		adapter = new CustomAlertList(MainActivity.this, operators, imageId);
+		adapter = new CustomAlertList(MainActivity.this, operators, imageIds);
 		dialog_listview.setBackground(dialog_image);
 		dialog_image.setAlpha(100);
 		dialog_listview.setAdapter(adapter);
