@@ -1,16 +1,11 @@
 package by.kursoft.gitaxi;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import stanislau.gitaxi_two.R;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,8 +14,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -34,17 +27,16 @@ import by.kursoft.gitaxi.database.DB;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 //когда исправишь все что тут написал, напишу еще
 
-public class MainActivity extends SherlockActivity implements
+public class MainActivity extends SherlockFragmentActivity implements
 		OnItemClickListener {
 
 	//про это  я писал	
@@ -53,13 +45,11 @@ public class MainActivity extends SherlockActivity implements
 	private Context mContext;
 	private ActionBar mActionBar;
 	
-	private CustomAlertList adapter;
 	
 	private DB db;
 	private Cursor c;
 	private SQLiteDatabase sqlDataBase;
 	private MySimpleCursorAdapter mySimpleCA;
-	private int version_of_db;
 	
 
 	private SharedPreferences sPref;
@@ -70,7 +60,6 @@ public class MainActivity extends SherlockActivity implements
 	private int currentVersion = 0;
 	private int dow;
 	private int currentDay = 0;
-	private int ownerId = 0;
 
 	private ListView listViewFromUzdaToMinsk;
 	private ListView listViewFromMinskToUzda;
@@ -79,27 +68,32 @@ public class MainActivity extends SherlockActivity implements
 	private Menu mMenu;
 	private SubMenu mSubMenu;
 
-	private TextView owner;
+	public static TextView owner;
+	public static TextView time;
 
 	private String dayOfWeek = null;
 	private String currentDayOfWeek;
 	private String temp_day;
 	private String fromUzdaToMinsk = "0";
 	private String fromMinskToUzda = "1";
-	private String[] operators = { "MTC", "Velcom" };
-	private Integer[] imageIds = { R.drawable.ic_mts_logo, R.drawable.ic_velcom_logo };
-
+	
+	private SherlockDialogFragment callDialog;	
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		getSupportActionBar().setTitle("Такси");
+		
 
 		calendar = Calendar.getInstance();
 		dow = calendar.get(Calendar.DAY_OF_WEEK);
 
 		currentDay = dow + 2;
-
+		
 		mContext = this;
+		
 		db = new DB(mContext);
 		db.open();
 		sqlDataBase = db.dbhelper.getReadableDatabase();
@@ -114,29 +108,13 @@ public class MainActivity extends SherlockActivity implements
 		sPref = getPreferences(MODE_PRIVATE);
 		ed = sPref.edit();
 
-		//Очень неудобно читать код. надо сделать проще.
-		//А создание диалога вынести в отдельный метод
-		// все сроки вынеси в ресурсы
 		if (c.getCount() == 0) {
 			ed.putInt(DB.SAVE_VERSION, currentVersion);
 			ed.commit();
 			if (Utils.isNetworkAvailable(MainActivity.this)) {
-				new AlertDialog.Builder(mContext)
-						.setCancelable(false)
-						.setMessage(
-								"При первом запуске приложения необходимо загрузить расписание")
-						.setPositiveButton("Начать",
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-										new UpdateSheldue().execute();
-										dialog.cancel();
-									}
-								}).show();
-
+				firstDialog();
 			} else {
-				Crouton.showText(this, "Отсутствует соединение с интернетом",
-						Style.ALERT, R.id.listMode);
+				HelpFunctions.showAlertCrouton(this, "Необходимо соединение с интернетом");
 			}
 		}
 
@@ -153,6 +131,7 @@ public class MainActivity extends SherlockActivity implements
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		mActionBar.setTitle("Taxi");
 
 		Tab tab = mActionBar.newTab();
 		tab.setText("из г. Узда");
@@ -165,7 +144,7 @@ public class MainActivity extends SherlockActivity implements
 		mActionBar.addTab(tab);
 
 		setTitle(dow);
-
+		
 	}
 
 	//Лучше слушатели вынеси в implements
@@ -201,6 +180,8 @@ public class MainActivity extends SherlockActivity implements
 		public void onPageScrollStateChanged(int position) {
 		}
 	};
+	
+
 
 	class UpdateSheldue extends AsyncTask<Void, Void, Void> {
 
@@ -224,12 +205,11 @@ public class MainActivity extends SherlockActivity implements
 		@Override
 		protected Void doInBackground(Void... params) {
 
-			version_of_database = Utils.getJSONString(Consts.urlVersion);
-
-			if (getVersion(version_of_database) != version) {
-				ed.putInt(DB.SAVE_VERSION, getVersion(version_of_database));
+			version_of_database = Utils.getJSONString(getApplicationContext(), Consts.urlVersion);
+			if (JSONReader.getVersion(version_of_database) != version) {
+				ed.putInt(DB.SAVE_VERSION, JSONReader.getVersion(version_of_database));
 				ed.commit();
-				result = Utils.getJSONString(Consts.urlSchedule);
+				result = Utils.getJSONString(getApplicationContext(), Consts.urlSchedule);
 			} else {
 				result = null;
 			}
@@ -243,18 +223,16 @@ public class MainActivity extends SherlockActivity implements
 			pDialog.dismiss();
 
 			if (result == null || result.length() == 0) {
-				Crouton.showText(MainActivity.this, "Расписание не изменялось",
-						Style.CONFIRM, R.id.listMode);
+				HelpFunctions.showConfirmCrouton(MainActivity.this, "Расписание не изменялось");
 			} else {
 				try {
-					Crouton.showText(MainActivity.this, "Обновление завершено",
-							Style.CONFIRM, R.id.listMode);
+					HelpFunctions.showConfirmCrouton(MainActivity.this, "Обновление завершено");
 					afterRefresh(temp);
 					sqlDataBase.delete(DB.DB_TABLE_TEMP, null, null);
-					saveSheldule(DB.ARRAY_UZDA_MINSK, result);
-					saveSheldule(DB.ARRAY_MINSK_UZDA, result);
+					JSONReader.saveSheldule(DB.ARRAY_UZDA_MINSK, result, db);
+					JSONReader.saveSheldule(DB.ARRAY_MINSK_UZDA, result, db);
 					afterRefresh(currentDay);
-				} catch (JSONException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
@@ -291,39 +269,13 @@ public class MainActivity extends SherlockActivity implements
 		SubMenu overflow_subMenu = menu.addSubMenu(3, 12, 2, "Info").setIcon(
 				R.drawable.ic_action_overflow);
 		overflow_subMenu.add(3, 13, 2, "Обновить расписание");
+		overflow_subMenu.add(3, 14, 2, "О приложении");
 
 		MenuItem overflow_subMenuItem = overflow_subMenu.getItem();
 		overflow_subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	//не должно быть в этом класс
-	public void saveSheldule(String array, String result) throws JSONException {
-
-		JSONObject rootJson = new JSONObject(result);
-		JSONArray jsonArray = rootJson.getJSONArray(array);
-		for (int i = 0; i < jsonArray.length(); i++) {
-			JSONObject objJson = jsonArray.getJSONObject(i);
-			db.addRec(objJson.getString(DB.COLUMN_DAY),
-					objJson.getString(DB.COLUMN_TIME),
-					objJson.getString(DB.COLUMN_OWNER),
-					objJson.getInt(DB.COLUMN_DIRECTION));
-		}
-	}
-
-	//не должно быть в этом класс
-	public int getVersion(String result) {
-		try {
-			JSONObject rootJson = new JSONObject(result);
-			version_of_db = rootJson.getInt("version");
-		} catch (JSONException e) {
-			e.printStackTrace();
-			version_of_db = -1;
-		}
-
-		return version_of_db;
-
-	}
 
 	private void setOptionTitle(int id, String title) {
 		MenuItem item = mMenu.findItem(id);
@@ -390,15 +342,17 @@ public class MainActivity extends SherlockActivity implements
 		case 11:
 			Intent intent = new Intent(this, LocationActivity.class);
 			startActivity(intent);
-			overridePendingTransition(R.anim.animation_first, R.anim.animation_two);
 			break;
 		case 13:
 			if (Utils.isNetworkAvailable(MainActivity.this)) {
 				new UpdateSheldue().execute();
 			} else {
-				Crouton.showText(this, "Проверьте соединение с интернетом",
-						Style.ALERT, R.id.listMode);
+				HelpFunctions.showAlertCrouton(this,"Проверьте соединение с интернетом");
 			}
+			break;
+		case 14:
+			Intent aboutApp = new Intent(getApplicationContext(), AboutApp.class);
+			startActivity(aboutApp);
 			break;
 		case android.R.id.home:
 			break;
@@ -411,13 +365,10 @@ public class MainActivity extends SherlockActivity implements
 			long id) {
 
 		owner = ((TextView) view.findViewById(R.id.owner));
-		//во всех конструкциях используй {} даже там где можно и не ставить
-		if (owner.equals(Consts.KONSTANTIN)) {
-			ownerId = 1;
-		} else
-			ownerId = 2;
-		CustomDialog(ownerId);
-
+		time = ((TextView) view.findViewById(R.id.time));
+		callDialog = new CallDialog();
+		callDialog.show(getSupportFragmentManager(), "callDialog");
+		
 	}
 
 	//одинаковые куски кода. Надо вынести в метод
@@ -560,61 +511,20 @@ public class MainActivity extends SherlockActivity implements
 		return currentDayOfWeek;
 	}
 
-	public void dial(String tel) {
-		startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(tel)));
+	public void firstDialog(){
+		AlertDialog.Builder adb = new Builder(mContext).
+				setMessage("При первом запуске необходимо загрузить расписание").
+				setPositiveButton("Начать", firstlistener).
+				setCancelable(false);
+				adb.show();
 	}
-
-	private void CustomDialog(int id) {
-		Dialog dialog = null;
-		Drawable dialog_image = getResources().getDrawable(R.drawable.ab_background_textured_gitaxi);
-
-		ListView dialog_listview;
-
-		dialog = new Dialog(mContext);
-		dialog.setTitle("Ваш оператор?");
-		dialog.setContentView(R.layout.dialog_list);
-		dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-		dialog.setCancelable(true);
-		dialog.setCanceledOnTouchOutside(true);
-
-		// Prepare ListView in dialog
-		dialog_listview = (ListView) dialog.findViewById(R.id.alertlist);
-		adapter = new CustomAlertList(MainActivity.this, operators, imageIds);
-		dialog_listview.setBackground(dialog_image);
-		dialog_image.setAlpha(100);
-		dialog_listview.setAdapter(adapter);
-
-		dialog_listview.setOnItemClickListener(new OnItemClickListener() {
-
-			//не создавай лисенеры прямо в мтеоде
-			//неудобно читать
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				switch (position) {
-				case 0:
-					if (owner.getText().equals(Consts.KONSTANTIN)) {
-						dial(Consts.NUMBER_KONSTANTIN_MTC);
-					}
-					if (owner.getText().equals(Consts.MISHONOK)) {
-						dial(Consts.NUMBER_MISHONOK_MTC);
-					}
-					break;
-
-				case 1:
-					if (owner.getText().equals(Consts.KONSTANTIN)) {
-						dial(Consts.NUMBER_KONSTANTIN_VELCOM);
-					}
-					if (owner.getText().equals(Consts.MISHONOK)) {
-						dial(Consts.NUMBER_MISHONOK_VELCOM);
-					}
-					break;
-				}
-
-			}
-		});
-
-		dialog.show();
-	}
-
+	
+	DialogInterface.OnClickListener firstlistener = new DialogInterface.OnClickListener() {
+		
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			new UpdateSheldue().execute();
+			dialog.cancel();
+		}
+	};
 }

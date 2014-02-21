@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/kostik"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@drawable/ab_background_textured_gitaxi" >
+
+    <TextView
+        android:id="@+id/passperevkostik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:gravity="center_horizontal"
+        android:text="@string/passperevozki"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/telMTCkostik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passperevkostik"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/telMTCkostik"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/telVELkostik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/telMTCkostik"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/telVELkostik"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/n_m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/telVELkostik"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="@string/n_m"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/number1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/n_m"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:text="@string/number1"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/number2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/number1"
+        android:layout_marginLeft="60dp"
+        android:layout_toRightOf="@id/number1"
+        android:text="@string/number2"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/number3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/number1"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/number3"
+        android:textSize="18sp" />
+    
+    <TextView
+        android:id="@+id/number4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/number3"
+        android:layout_marginLeft="60dp"
+        android:layout_toRightOf="@+id/number3"
+        android:text="@string/number4"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/cancelDialogkostik"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/number4"
+        android:layout_marginTop="30dp"
+        android:text="@string/canceldialog" />
+
+
+</RelativeLayout>

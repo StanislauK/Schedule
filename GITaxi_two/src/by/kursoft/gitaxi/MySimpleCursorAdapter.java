@@ -21,7 +21,6 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 	Typeface type;
 	private int layout;
 	private LayoutInflater layoutInflater;
-	private static String FONT = "HelveticaNeueCyr-Light.otf";
 	
 
 	@SuppressWarnings("deprecation")
@@ -37,7 +36,7 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
-		type = Typeface.createFromAsset(mContext.getAssets(), FONT);
+		type = Typeface.createFromAsset(mContext.getAssets(), Consts.FONT);
 
 		if (view == null) {
 			layoutInflater = (LayoutInflater) activity
@@ -66,12 +65,10 @@ public class MySimpleCursorAdapter extends SimpleCursorAdapter {
 
 		public final TextView time;
 		public final TextView owner;
-//		public final TextView call;
 
 		public ViewHolder(View view) {
 			time = (TextView) view.findViewById(R.id.time);
 			owner = (TextView) view.findViewById(R.id.owner);
-//			call = (TextView) view.findViewById(R.id.call);
 		}
 
 	}

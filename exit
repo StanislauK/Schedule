@@ -1,0 +1,54 @@
+[33mcommit d34127da967d2747fc8f4093aa237dd1a8693431[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Tue Jan 28 01:38:26 2014 +0300
+
+    some refactoring
+
+[33mcommit 43e0b41a936e90885d40a0dd62e1c009c6d55bc3[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Tue Jan 28 00:07:27 2014 +0300
+
+    before upload to google play
+
+[33mcommit f372b740fa13e88d05471c6475a6cb7a778fe8d5[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Sat Jan 25 00:36:45 2014 +0300
+
+    with comments by Dima
+
+[33mcommit 73037d380318c2b0b280aa7eded105751d21760e[m
+Author: dimabiryuk <dimabiryuk@gmail.com>
+Date:   Fri Jan 24 23:59:28 2014 +0300
+
+    add comments
+
+[33mcommit 4242154f49c0a897a51e9290ebc8b8ed3262ccce[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Thu Jan 16 00:29:09 2014 +0300
+
+    Added foto to location fragments
+
+[33mcommit e1bb21e20b04968baa76ff096a420e750f816ac8[m
+Merge: d342959 1a7d21a
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Wed Jan 8 22:43:30 2014 +0300
+
+    Merge branch 'master' of https://github.com/StanislauK/Schedule
+
+[33mcommit d34295995f98be064988c0ddc911b056b3a98485[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Wed Jan 8 22:37:48 2014 +0300
+
+    First commit to github
+
+[33mcommit dfd89542b7b419d21ac1ce0e88e56d7752c136e2[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Sun Jan 5 15:33:19 2014 +0300
+
+    stas loh
+
+[33mcommit 1a7d21ad7e69f978cc8aaa1331cfc0e85bc63915[m
+Author: StanislauK <stanislau.k@gmail.com>
+Date:   Tue Dec 3 11:44:52 2013 -0800
+
+    Initial commit

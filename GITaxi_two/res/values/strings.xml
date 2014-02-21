@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">GITaxi</string>
+    <string name="app_name">Маршрутка</string>
     <string name="menu_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="call">Позвонить</string>
@@ -9,28 +9,48 @@
     <string name="owner">Костя</string>
     <string name="arrow">arrow</string>
     <string name="operator">MTC</string>
-    <string name="stopping_points_u">Остановчные пункты маршрутного такси по городу Узда:</string>
-    <string name="stopping_points_m">Остановчные пункты маршрутного такси по городу Минск:</string>
-	<string name="circle">circle</string>
-	<string name="m_r">магазин "Родник"</string>
-	<string name="blrd">магазин "BlackRedWhite"</string>
-	<string name="hospital">больница(авт. остановка)</string>
-	<string name="m_five">магазин №5 (советская)</string>
-	<string name="m_b">магазин Будавник</string>
-	<string name="rinok">рынок</string>
-	<string name="uzdyanka">Уздянка (авт. остановка)</string>
-	<string name="rdk">РДК (авт. остановка)</string>
-	<string name="kolhoz">ул. Колхозная (авт. остановка)</string>
-	<string name="m_g">магазин "Гостинец"</string>
-	<string name="m_l">магазин "Луговой"</string>
-	<string name="n_m">Номера наших машин:</string>
-	<string name="number1">28&#8212;33</string>
-	<string name="number2">28&#8212;34</string>
-	<string name="number3">28&#8212;39</string>
-	<string name="number4">28&#8212;94</string>
-	<string name="avtovaz">АвтоВаз</string>
-	<string name="bsmp">больница скорой мед. помощи</string>
-	<string name="institut">институт культуры</string>
-	<string name="jd">ж/д вокзал</string>
+    <string name="stopping_points_u">Остановочные пункты маршрутного такси по городу Узда:</string>
+    <string name="stopping_points_m">Остановочные пункты маршрутного такси по городу Минск:</string>
+    <string name="circle">circle</string>
+    <string name="m_r">магазин "Родник"</string>
+    <string name="blrd">магазин "BlackRedWhite"</string>
+    <string name="hospital">больница(авт. остановка)</string>
+    <string name="m_five">магазин №5 (ул. Советская)</string>
+    <string name="m_b">магазин Будавник</string>
+    <string name="rinok">рынок</string>
+    <string name="uzdyanka">Уздянка (авт. остановка)</string>
+    <string name="rdk">РДК (авт. остановка)</string>
+    <string name="kolhoz">ул. Колхозная (авт. остановка)</string>
+    <string name="m_g">магазин "Гостинец"</string>
+    <string name="m_l">магазин "Луговой"</string>
+    <string name="n_m">Номера наших машин:</string>
+    <string name="number1">33&#8212;28</string>
+    <string name="number2">34&#8212;28</string>
+    <string name="number3">39&#8212;28</string>
+    <string name="number4">94&#8212;28</string>
+    <string name="avtovaz">АвтоВаз</string>
+    <string name="bsmp">больница скорой мед. помощи</string>
+    <string name="institut">Институт культуры</string>
+    <string name="jd">ж/д вокзал</string>
+    <string name="mishonok">УздаТрансПлюс</string>
+    <string name="kostik">ИринТрансСервис</string>
+    <string name="canceldialog">Закрыть</string>
+    <string name="passperevozki">Пассажирские перевозки Минск-Узда, Узда-Минск и другие маршруты</string>
+    <string name="telMTCkostik">8&#8212;029&#8212;5066629 (MTC)</string>
+    <string name="telVELkostik">8&#8212;044&#8212;5666629 (Velcom)</string>
+    <string name="telMTCmishonok">8&#8212;029&#8212;2727867 (MTC)</string>
+    <string name="telVelmishonok">8&#8212;029&#8212;6476471 (Velcom)</string>
+    <string name="myName">Курлянчик Станислав</string>
+    <string name="myPhone">+375(29)815 76 75</string>
+    <string name="email">stanislau.k@gmail.com</string>
+    <string name="myContact">Мои контакты:</string>
+    <string name="myDescription">Приложение "Маршрутка"</string>
+    <string name="developer">(разработчик)</string>
+    <string name="about">Данное приложение позволит Вам:
+        \n\n   - в удобной форме узнавать расписание на нужный день недели;
+        \n   - с помощью обновления расписания быть всегда в курсе изменений в расписании;
+        \n   - сделать звонок диспетчеру нажав на время в списке и выбрав вашего сотового оператора.
+        </string>
+    <string name="feedback">Готов ответить на любые вопросы и предложения</string>
 
 </resources>

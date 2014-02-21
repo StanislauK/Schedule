@@ -3,6 +3,7 @@ package by.kursoft.gitaxi;
 import stanislau.gitaxi_two.R;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
@@ -19,6 +21,8 @@ public class LocationActivity extends SherlockFragmentActivity {
 
 	ActionBar mActionBar;
 	ViewPager mViewPager;
+	SherlockDialogFragment kostik;
+	DialogFragment mishonok;
 
 	@Override
 	protected void onCreate(Bundle savedInstantState) {
@@ -44,6 +48,9 @@ public class LocationActivity extends SherlockFragmentActivity {
 		tab.setText("из г. Минска");
 		tab.setTabListener(mActionBarTabListener);
 		mActionBar.addTab(tab);
+		
+		kostik = new InfoKostik();
+		mishonok = new InfoMishonok();
 
 	}
 
@@ -111,7 +118,12 @@ public class LocationActivity extends SherlockFragmentActivity {
 			Intent homeIntent = new Intent(this, MainActivity.class);
 			homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(homeIntent);
-			overridePendingTransition(R.anim.animation_first_l, R.anim.animation_two_l);
+			break;
+		case 2:
+			kostik.show(getSupportFragmentManager(), "kostik");
+			break;
+		case 3:
+			mishonok.show(getSupportFragmentManager(), "mishonok");
 			break;
 		}
 
@@ -130,6 +142,8 @@ public class LocationActivity extends SherlockFragmentActivity {
 		menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	
 	
 	@Override
 	public void onBackPressed() {

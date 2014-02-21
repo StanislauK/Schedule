@@ -28,6 +28,10 @@ public class Consts {
 	
 	public static final String urlVersion = "https://www.dropbox.com/s/cgd8eoao7n84kxo/version.txt?dl=1";
 	public static final String urlSchedule = "https://www.dropbox.com/s/l0k848vwah0zfv1/schedule.txt?dl=1";
+
+	public static String FONT = "HelveticaNeueCyr-Light.otf";
+	public static final int ALPHA = 80;
+	
 	
 
 }

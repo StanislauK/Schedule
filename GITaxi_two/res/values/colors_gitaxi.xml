@@ -22,4 +22,6 @@
     <color name="alertlistview">#20007AFF</color>
     <color name="alert_operator">#1B7EFA</color>
     <color name="list_of_station">#1c7efb</color>
+    <color name="iosBlue">#177AF2</color>
+    <color name="iosGrey">#636363</color>
 </resources>

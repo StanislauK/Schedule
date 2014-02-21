@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:contentDescription="@string/rdk"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/foto_minsk" >
 
     <TextView
         android:id="@+id/stopping_points_m"
