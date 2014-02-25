@@ -34,30 +34,39 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
 
-//����� ��������� ��� ��� ��� �������, ������ ���
+//����� ��������� ��� ��� ��� �������, ������ ���
 
 public class MainActivity extends SherlockFragmentActivity implements
 		OnItemClickListener {
 
-	//��� ���  � �����	
+	//��� ���  � �����	
 		
 
-	private Context mContext;
+	//Зачеим хранишь контекст???
+	private Context mContext;  
+	//Зачем хранишь ссылку на экшен бар??
 	private ActionBar mActionBar;
 	
 	
 	private DB db;
+	
+	//Зачем хранишь курсор?
+	//Плохое название для курсора
 	private Cursor c;
 	private SQLiteDatabase sqlDataBase;
+	//Плохое название для класса
 	private MySimpleCursorAdapter mySimpleCA;
 	
 
 	private SharedPreferences sPref;
+	//плохое название для эдитора
 	private Editor ed;
 
 	private Calendar calendar;
 
 	private int currentVersion = 0;
+	
+	//Что такое DOW???
 	private int dow;
 	private int currentDay = 0;
 
@@ -71,12 +80,17 @@ public class MainActivity extends SherlockFragmentActivity implements
 	public static TextView owner;
 	public static TextView time;
 
+	//Зачем инициализируешь строку??? И почему тогда остальны ене инициализируешь???
 	private String dayOfWeek = null;
 	private String currentDayOfWeek;
+	//Не соответствует конвенциям именования переменных в джава
 	private String temp_day;
+	
+	//Неизменяемые значения выноси в константы
 	private String fromUzdaToMinsk = "0";
 	private String fromMinskToUzda = "1";
 	
+	//Желательно чтобы переменные не начинались с глагола
 	private SherlockDialogFragment callDialog;	
 	
 	
@@ -84,19 +98,24 @@ public class MainActivity extends SherlockFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		getSupportActionBar().setTitle("�����");
 		
-
+		//Все названия в ресурсы выноси
+		getSupportActionBar().setTitle("�����");
+		
+		//Лучше вынести в отдельный метож
 		calendar = Calendar.getInstance();
 		dow = calendar.get(Calendar.DAY_OF_WEEK);
-
 		currentDay = dow + 2;
 		
+		//это вообще гадство какое-то )))
 		mContext = this;
 		
+		//инициализация БД в отдельный метож
 		db = new DB(mContext);
 		db.open();
 		sqlDataBase = db.dbhelper.getReadableDatabase();
+		
+		//про название курсора писал. Инициализируй курсор перед испоьзованием
 		c = sqlDataBase.query(DB.DB_TABLE_TEMP, null, null, null, null, null,
 				null);
 
@@ -107,17 +126,23 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		sPref = getPreferences(MODE_PRIVATE);
 		ed = sPref.edit();
-
+		
+		// вынести  вотделньный метод
 		if (c.getCount() == 0) {
 			ed.putInt(DB.SAVE_VERSION, currentVersion);
 			ed.commit();
+			//опять таки ты создал переменную контект а используешь this.
+			// Используй просто thшs а не  MainActivity.this
 			if (Utils.isNetworkAvailable(MainActivity.this)) {
 				firstDialog();
 			} else {
-				HelpFunctions.showAlertCrouton(this, "���������� ���������� � ����������");
+				// Все строки в ресурсы
+				HelpFunctions.showAlertCrouton(this, "���������� ���������� � ����������");
 			}
 		}
 
+		// Зачем использовать Лист когда у тебя ограниченное и заранее известное количетсво маршрутов?
+		// лучше листа использовать обычный массив. А еще лучше перечисление
 		List<View> pages = new ArrayList<View>();
 		pages.add(listViewFromUzdaToMinsk);
 		pages.add(listViewFromMinskToUzda);
@@ -131,23 +156,29 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		mActionBar = getSupportActionBar();
 		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		//строки в ресурсы
 		mActionBar.setTitle("Taxi");
 
+		
 		Tab tab = mActionBar.newTab();
-		tab.setText("�� �. ����");
+		//строки в ресурсы
+		tab.setText("�� �. ����");
 		tab.setTabListener(mActionBarTabListener);
-
 		mActionBar.addTab(tab);
+		
+		//1. переменная таб инициализируется дважды. В данном случае лучше было завести вторую переменную
+		//2. Копипаст! Избавься от него
 		tab = mActionBar.newTab();
-		tab.setText("�� �. ������");
+		//строки в ресурсы
+		tab.setText("�� �. ������");
 		tab.setTabListener(mActionBarTabListener);
 		mActionBar.addTab(tab);
 
 		setTitle(dow);
-		
 	}
-
-	//����� ��������� ������ � implements
+	
+	//Реализацию интерфейса выноси в отдельный класс. (Подсказка "во внутренний")
+	//����� ��������� ������ � implements
 	ActionBar.TabListener mActionBarTabListener = new ActionBar.TabListener() {
 
 		@Override
@@ -164,7 +195,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	};
 
-	//���� �����
+	//Реализацию интерфейса выноси в отдельный класс. (Подсказка "во внутренний")
+	//���� �����
 	ViewPager.OnPageChangeListener mViewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
 		@Override
@@ -195,22 +227,34 @@ public class MainActivity extends SherlockFragmentActivity implements
 		protected void onPreExecute() {
 			super.onPreExecute();
 			pDialog = new ProgressDialog(mContext);
-			pDialog.setMessage("��������...");
+			// Строки в ресурсы
+			pDialog.setMessage("��������...");
 			pDialog.setCancelable(false);
 			pDialog.show();
 			version = sPref.getInt(DB.SAVE_VERSION, 0);
 			temp = currentDay;
+			
+			/*
+				Разделяй код в методах на логические функциональные блоки а не пиши все в кучу типа:
+				pDialog.setMessage("��������...");
+				pDialog.setCancelable(false);
+				pDialog.show();
+				version = sPref.getInt(DB.SAVE_VERSION, 0);
+				temp = currentDay;
+			*/
 		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
-
+			// 1. Не правиьлное именование переменной
+			// 2. эту переменную можно сделать константой, т.к. она не будет изменяться
 			version_of_database = Utils.getJSONString(getApplicationContext(), Consts.urlVersion);
 			if (JSONReader.getVersion(version_of_database) != version) {
 				ed.putInt(DB.SAVE_VERSION, JSONReader.getVersion(version_of_database));
 				ed.commit();
 				result = Utils.getJSONString(getApplicationContext(), Consts.urlSchedule);
 			} else {
+				//возвращение null - неочень хорошая идея. Лучше вернуть пустую строку.
 				result = null;
 			}
 
@@ -218,15 +262,20 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 
 		@Override
+		//плохое название параметра ххх
 		protected void onPostExecute(Void xxx) {
 			super.onPostExecute(xxx);
 			pDialog.dismiss();
 
 			if (result == null || result.length() == 0) {
-				HelpFunctions.showConfirmCrouton(MainActivity.this, "���������� �� ����������");
+				// Строки в ресурсы
+				HelpFunctions.showConfirmCrouton(MainActivity.this, "���������� �� ����������");
 			} else {
+				//блок try-catch лучше вынести в отдельный метод.
+				// Проглатываешь исключения. Не узнаешь об ошибке!
 				try {
-					HelpFunctions.showConfirmCrouton(MainActivity.this, "���������� ���������");
+					// Строки в ресурсы
+					HelpFunctions.showConfirmCrouton(MainActivity.this, "���������� ���������");
 					afterRefresh(temp);
 					sqlDataBase.delete(DB.DB_TABLE_TEMP, null, null);
 					JSONReader.saveSheldule(DB.ARRAY_UZDA_MINSK, result, db);
@@ -241,22 +290,26 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	}
 
-	//������ � �������
-	//�������� ���� ������� � ������ Menu
+	//������ � �������
+	//�������� ���� ������� � ������ Menu
 	@Override
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu) {
 
 		this.mMenu = menu;
 		mSubMenu = menu.addSubMenu(1, Consts.MENU_TITLE, 1, dayOfWeek);
-		mSubMenu.add(0, 2, 2, "�������");
-		// mSubMenu.add(0, 3, 3, "������");
-		mSubMenu.add(0, 4, 4, "�����������");
-		mSubMenu.add(0, 5, 5, "�������");
-		mSubMenu.add(0, 6, 6, "�����");
-		mSubMenu.add(0, 7, 7, "�������");
-		mSubMenu.add(0, 8, 8, "�������");
-		mSubMenu.add(0, 9, 9, "�������");
-		mSubMenu.add(0, 10, 10, "�����������");
+		// Строки в ресурсы
+		// опять же про логические блоки
+		
+		//меню тоже лучше в ресурсы вынести.
+		mSubMenu.add(0, 2, 2, "�������");
+		// mSubMenu.add(0, 3, 3, "������");
+		mSubMenu.add(0, 4, 4, "�����������");
+		mSubMenu.add(0, 5, 5, "�������");
+		mSubMenu.add(0, 6, 6, "�����");
+		mSubMenu.add(0, 7, 7, "�������");
+		mSubMenu.add(0, 8, 8, "�������");
+		mSubMenu.add(0, 9, 9, "�������");
+		mSubMenu.add(0, 10, 10, "�����������");
 		MenuItem subMenuItem = mSubMenu.getItem();
 		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS
 				| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -268,8 +321,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 		SubMenu overflow_subMenu = menu.addSubMenu(3, 12, 2, "Info").setIcon(
 				R.drawable.ic_action_overflow);
-		overflow_subMenu.add(3, 13, 2, "�������� ����������");
-		overflow_subMenu.add(3, 14, 2, "� ����������");
+		overflow_subMenu.add(3, 13, 2, "�������� ����������");
+		overflow_subMenu.add(3, 14, 2, "� ����������");
 
 		MenuItem overflow_subMenuItem = overflow_subMenu.getItem();
 		overflow_subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -282,11 +335,15 @@ public class MainActivity extends SherlockFragmentActivity implements
 		item.setTitle(title);
 	}
 
-	//���������� ����� ����. ���� ������� � �����
+	//���������� ����� ����. ���� ������� � �����
 	@Override
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item) {
-
+		
+		// Копипаст. конкретнейший.
+		// Строки в ресуры
+		// на один блок case один метод
+		
 		switch (item.getItemId()) {
 		case 2:
 			setOptionTitle(Consts.MENU_TITLE, getCurrentDay(dow));
@@ -347,7 +404,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 			if (Utils.isNetworkAvailable(MainActivity.this)) {
 				new UpdateSheldue().execute();
 			} else {
-				HelpFunctions.showAlertCrouton(this,"��������� ���������� � ����������");
+				HelpFunctions.showAlertCrouton(this,"��������� ���������� � ����������");
 			}
 			break;
 		case 14:
@@ -360,6 +417,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+
+	// OnClickListener реализуй не в implement а в отдельном классе. 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
@@ -371,7 +430,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		
 	}
 
-	//���������� ����� ����. ���� ������� � �����
+	//���������� ����� ����. ���� ������� � �����
 	public void setTitle(int day) {
 		switch (day) {
 		case 1:
@@ -419,9 +478,11 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	//�� ��������� ������ � ������ ������� ��������
-	//�������� ������� � ��������� �����, � ���������� � �������. 
-	//������� - ������ ��������. �� ����� ���������� � ��� ��� ������ �����
+	//�� ��������� ������ � ������ ������� ��������
+	//�������� ������� � ��������� �����, � ���������� � �������. 
+	//������� - ������ ��������. �� ����� ���������� � ��� ��� ������ �����
+	
+	//Никогда не используй устаревшие методы и классы.
 	@SuppressWarnings("deprecation")
 	public void Adapter(String day, String direction, ListView lv) {
 
@@ -440,7 +501,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	}
 
-	//���������� ����� ����. ���� ������� � �����
+	//���������� ����� ����. ���� ������� � �����
 	public void afterRefresh(int day) {
 		switch (day) {
 		case 4:
@@ -475,8 +536,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		}
 	}
 
-	//���������� ����� ����. ���� ������� � �����
-	//������ � �������
+	//���������� ����� ����. ���� ������� � �����
+	//������ � �������
 	public String getCurrentDay(int dow) {
 		switch (dow) {
 		case 1:
@@ -513,8 +574,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	public void firstDialog(){
 		AlertDialog.Builder adb = new Builder(mContext).
-				setMessage("��� ������ ������� ���������� ��������� ����������").
-				setPositiveButton("������", firstlistener).
+				setMessage("��� ������ ������� ���������� ��������� ����������").
+				setPositiveButton("������", firstlistener).
 				setCancelable(false);
 				adb.show();
 	}
